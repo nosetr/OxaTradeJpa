@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.nosetr</groupId>
 		<artifactId>back-parent</artifactId>
-		<version>0.1.0</version>
+		<version>0.1.4</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
@@ -16,16 +16,64 @@
 	<description>non-runable library-module for OxaTradeJpa</description>
 	<packaging>jar</packaging>
 
+	<properties>
+		<org.passay.version>1.6.4</org.passay.version>
+		<google.guava.version>32.1.3-jre</google.guava.version>
+	</properties>
+
 	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava
+		Sammlung von Open-Source-Utility-Klassen und -Methoden für Java, die von Google
+		entwickelt wurde. Sie bietet verschiedene Funktionen, um häufig auftretende
+		Aufgaben in der Java-Programmierung zu vereinfachen und zu verbessern. -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${google.guava.version}</version>
+		</dependency>
+		
+		<!--
+		https://mvnrepository.com/artifact/org.passay/passay
+		Library for checking that a password complies with a custom set of
+		rules
+		https://www.baeldung.com/java-passay
+		-->
+		<dependency>
+			<groupId>org.passay</groupId>
+			<artifactId>passay</artifactId>
+			<version>${org.passay.version}</version>
+		</dependency>
+		<!--
+		https://mvnrepository.com/artifact/commons-validator/commons-validator
+		https://commons.apache.org/components.html
+		For email-send, fileupload, crypto and so on...
+		-->
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 </project>

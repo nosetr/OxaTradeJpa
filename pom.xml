@@ -12,7 +12,7 @@
 
 	<groupId>com.nosetr</groupId>
 	<artifactId>back-parent</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.4</version>
 	<packaging>pom</packaging>
 	<description>Parent pom-Module for OxaTradeJpa-Project</description>
 
