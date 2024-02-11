@@ -1,8 +1,8 @@
 -- DROP DATABASE IF EXISTS oxatrade;
 
-CREATE SCHEMA IF NOT EXISTS oxatrade
-	CHARACTER SET utf8mb4
-  COLLATE utf8mb4_general_ci;
+-- CREATE SCHEMA IF NOT EXISTS oxatrade
+--	CHARACTER SET utf8mb4
+--  COLLATE utf8mb4_general_ci;
 
 -- NEWSLETTER-BLOCK:
 
@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS oxatrade.newsletter (
   email varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
   enabled BOOLEAN NOT NULL DEFAULT '0' COMMENT 'Email is verificated',
   last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='List of emails for newsletter-mailing';
 
 -- Triggers to automatically generate the UUID by "users"
@@ -42,7 +43,7 @@ INSERT INTO oxatrade.newsthema (thema_name, memo) VALUES
 CREATE TABLE IF NOT EXISTS oxatrade.newsletter_newsthema (
   email_id BINARY(16) NOT NULL,
   thema_id int unsigned NOT NULL,
-  PRIMARY KEY (email_id, thema_id),
-  FOREIGN KEY (email_id) REFERENCES oxatrade.newsletter(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (thema_id) REFERENCES oxatrade.newsthema(id) ON UPDATE CASCADE ON DELETE CASCADE
+  PRIMARY KEY (email_id, thema_id)
+  -- FOREIGN KEY (email_id) REFERENCES oxatrade.newsletter(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  -- FOREIGN KEY (thema_id) REFERENCES oxatrade.newsthema(id) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Many-to-Many relationship between newsletter and newsthema';

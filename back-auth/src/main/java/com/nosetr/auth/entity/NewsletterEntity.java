@@ -10,6 +10,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -48,12 +49,11 @@ public class NewsletterEntity {
 	 * The many-to-many relationship to NewsthemaEntity
 	 */
 	@Builder.Default
-	@ManyToMany(cascade = { CascadeType.ALL })
-  @JoinTable(
-      name = "newsletter_newsthema", 
-      joinColumns = { @JoinColumn(name = "email_id") }, 
-      inverseJoinColumns = { @JoinColumn(name = "thema_id") }
-  )
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "newsletter_newsthema", joinColumns = { @JoinColumn(name = "email_id") }, inverseJoinColumns = {
+					@JoinColumn(name = "thema_id") }
+	)
 	private Set<NewsthemaEntity> newsthemen = new HashSet<>();
 
 	/**
@@ -64,12 +64,12 @@ public class NewsletterEntity {
 	 * @param themaMono
 	 * @see             https://manerajona.medium.com/mapping-bidirectional-object-associations-using-mapstruct-ce49b1857604
 	 */
-//	public void addTheme(NewsthemaEntity thema) {
-//		if (this.newsthemen == null) this.newsthemen = new HashSet<>();
-//		this.newsthemen.add(thema);
-//		thema.getEmails()
-//				.add(this);
-//	}
+	//	public void addTheme(NewsthemaEntity thema) {
+	//		if (this.newsthemen == null) this.newsthemen = new HashSet<>();
+	//		this.newsthemen.add(thema);
+	//		thema.getEmails()
+	//				.add(this);
+	//	}
 
 	/**
 	 * Remove theme by many-to-many.

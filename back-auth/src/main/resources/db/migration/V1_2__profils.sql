@@ -4,7 +4,7 @@
 CREATE TABLE IF NOT EXISTS oxatrade.organizations (
   id bigint unsigned NOT NULL AUTO_INCREMENT, -- customer ID > 10000
   org_name varchar(64) NOT NULL COMMENT 'title of organisation',
-  email varchar(64) DEFAULT NULL,
+  email varchar(64) DEFAULT NULL, -- don't make UNIQUE
   phone varchar(25) DEFAULT NULL,
   enabled BOOLEAN NOT NULL DEFAULT '1' COMMENT 'If is active',
   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -19,10 +19,10 @@ CREATE TABLE IF NOT EXISTS oxatrade.users_organizations (
   user_id BINARY(16) NOT NULL,
   org_id bigint unsigned NOT NULL,
   user_org_role varchar(32) DEFAULT NULL,
-  PRIMARY KEY (user_id, org_id),
-  KEY `FKh8ciramu9cc9q3qcqiv4ue8a6` (org_id),
-  CONSTRAINT `FKh8ciramu9cc9q3qcqiv4ue8a6` FOREIGN KEY (org_id) REFERENCES oxatrade.organizations (id) ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT `FKhfh9dx7w3ubf1co1vdev94g3f` FOREIGN KEY (user_id) REFERENCES oxatrade.users (id) ON UPDATE CASCADE ON DELETE CASCADE
+  PRIMARY KEY (user_id, org_id)
+  -- KEY `FKh8ciramu9cc9q3qcqiv4ue8a6` (org_id),
+  -- CONSTRAINT `FKh8ciramu9cc9q3qcqiv4ue8a6` FOREIGN KEY (org_id) REFERENCES oxatrade.organizations (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  -- CONSTRAINT `FKhfh9dx7w3ubf1co1vdev94g3f` FOREIGN KEY (user_id) REFERENCES oxatrade.users (id) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Many-to-many between users and organizations';
 
 -- oxatrade.countries definition
@@ -47,16 +47,16 @@ CREATE TABLE IF NOT EXISTS oxatrade.addresses (
   zip_code varchar(9) NOT NULL COMMENT 'Postal code',
   state_name varchar(75) DEFAULT NULL COMMENT 'Complete state name',
   country_code char(2) NOT NULL COMMENT 'Country identification',
-  email varchar(64) DEFAULT NULL,
+  email varchar(64) DEFAULT NULL, -- don't make UNIQUE
   phone varchar(25) DEFAULT NULL,
   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   memo text COMMENT 'memo/information',
-  PRIMARY KEY (id),
-  KEY country_code (country_code),
-  KEY addresses_FK (org_id),
-  CONSTRAINT addresses_FK FOREIGN KEY (org_id) REFERENCES oxatrade.organizations (id) ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT addresses_ibfk_1 FOREIGN KEY (country_code) REFERENCES oxatrade.countries (country_code) ON UPDATE CASCADE
+  PRIMARY KEY (id)
+  -- KEY country_code (country_code),
+  -- KEY addresses_FK (org_id),
+  -- CONSTRAINT addresses_FK FOREIGN KEY (org_id) REFERENCES oxatrade.organizations (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  -- CONSTRAINT addresses_ibfk_1 FOREIGN KEY (country_code) REFERENCES oxatrade.countries (country_code) ON UPDATE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Addresses for users, customers, organizations...';
 
 -- Triggers to automatically generate the UUID by "users"

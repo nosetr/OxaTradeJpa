@@ -1,11 +1,9 @@
 package com.nosetr.auth.dto;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nosetr.auth.entity.UserEntity;
-import com.nosetr.auth.enums.UserRoleEnum;
 import com.nosetr.library.util.annotation.FieldsValueMatch;
 import com.nosetr.library.util.annotation.ValidEmail;
 import com.nosetr.library.util.annotation.ValidPassword;
@@ -54,8 +52,6 @@ public class UserDto {
 	@NotBlank(message = "{validation.field.NotBlank}")
 	private String confirmPassword;
 
-	private UserRoleEnum userRole;
-
 	private String title;
 
 	@NotBlank(message = "{validation.field.NotBlank}")
@@ -70,8 +66,4 @@ public class UserDto {
 	private boolean enabled;
 
 	private boolean newsletter;
-
-	private LocalDateTime createdAt;
-
-	private LocalDateTime updatedAt;
 }

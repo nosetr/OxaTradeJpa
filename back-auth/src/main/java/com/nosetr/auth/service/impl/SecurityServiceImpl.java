@@ -7,14 +7,14 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.nosetr.auth.dto.AuthResponseDto;
 import com.nosetr.auth.entity.UserEntity;
 import com.nosetr.auth.repository.UserRepository;
-import com.nosetr.auth.security.PBFDK2Encoder;
 import com.nosetr.auth.service.SecurityService;
 import com.nosetr.auth.service.UserService;
+import com.nosetr.auth.util.PBFDK2Encoder;
 import com.nosetr.library.enums.ErrorEnum;
 import com.nosetr.library.util.exception.AuthException;
 
@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
  * @autor Nikolay Osetrov
  * @since 0.1.0
  */
-@Component
+@Service
 @RequiredArgsConstructor
 public class SecurityServiceImpl implements SecurityService {
 
@@ -88,9 +88,9 @@ public class SecurityServiceImpl implements SecurityService {
 	 * @param  user UserEntity
 	 * @return      AuthResponseDto
 	 */
-	@SuppressWarnings("serial")
 	private AuthResponseDto generateToken(UserEntity user) {
 		Map<String, Object> claims = new HashMap<>() {
+			private static final long serialVersionUID = 3877691385799795719L;
 			{
 				put("role", user.getUserRole());
 				put("email", user.getEmail());

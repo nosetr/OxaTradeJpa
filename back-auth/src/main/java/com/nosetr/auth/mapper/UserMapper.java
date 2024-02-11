@@ -31,6 +31,7 @@ public interface UserMapper {
 
 	@InheritInverseConfiguration
 	@Mapping(target = "provider", ignore = true)
+	@Mapping(target = "userRole", ignore = true)
 	UserEntity map(UserDto dto);
 
 	@Mapping(target = "id", ignore = true)
@@ -53,6 +54,7 @@ public interface UserMapper {
 
 	@InheritInverseConfiguration
 	@Mapping(target = "password", ignore = true)
+	@Mapping(target = "userRole", ignore = true)
 	UserEntity map(UserOAuth2Dto dto);
 
 	List<UserDto> map(List<UserEntity> all);

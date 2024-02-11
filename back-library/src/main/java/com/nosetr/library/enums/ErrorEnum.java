@@ -18,20 +18,26 @@ import lombok.Getter;
  */
 public enum ErrorEnum {
 
-	USER_WITH_EMAIL_ALREADY_EXISTS(
-			"EMAIL_ALREADY_IN_USE", "exception.email.alreadyExists"
-	),
 	INVALID_EMAIL_IS_REQUESTED(
 			"INVALID_EMAIL", "exception.email.invalid"
 	),
 	INVALID_PASSWORD_IS_REQUESTED(
 			"INVALID_PASSWORD", "exception.password.invalid"
 	),
+	USER_WITH_EMAIL_ALREADY_EXISTS(
+			"EMAIL_ALREADY_IN_USE", "exception.user.email.alreadyExists"
+	),
 	USER_NOT_FOUND(
 			"USER_NOT_FOUND", "exception.user.notFound"
 	),
 	USER_ACCOUNT_IS_DISABLED(
 			"USER_ACCOUNT_DISABLED", "exception.user.disabled"
+	),
+	USER_ROLE_ID_NOT_FOUND(
+			"USER_ROLE_NOT_FOUND", "exception.user.role.id.notFound"
+	),
+	USER_ROLE_NAME_NOT_FOUND(
+			"USER_ROLE_NOT_FOUND", "exception.user.role.name.notFound"
 	),
 	TOKEN_IS_EXPIRED(
 			"TOKEN_EXPIRED", "exception.access.tokenExpired"

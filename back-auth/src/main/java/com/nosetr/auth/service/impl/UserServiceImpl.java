@@ -3,6 +3,7 @@ package com.nosetr.auth.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -10,19 +11,22 @@ import org.springframework.stereotype.Service;
 import com.nosetr.auth.dto.UserDto;
 import com.nosetr.auth.dto.UserRegisterDto;
 import com.nosetr.auth.dto.UserUpdateDto;
+import com.nosetr.auth.entity.RoleEntity;
 import com.nosetr.auth.entity.UserEntity;
-import com.nosetr.auth.enums.UserRoleEnum;
 import com.nosetr.auth.mapper.UserMapper;
 import com.nosetr.auth.repository.UserRepository;
-import com.nosetr.auth.security.PBFDK2Encoder;
+import com.nosetr.auth.service.RoleService;
 import com.nosetr.auth.service.UserService;
+import com.nosetr.auth.util.PBFDK2Encoder;
 import com.nosetr.library.enums.ErrorEnum;
 import com.nosetr.library.util.exception.EntityAlreadyExistsException;
 import com.nosetr.library.util.exception.EntityNotFoundException;
 import com.nosetr.library.util.exception.UnauthorizedException;
 
 import jakarta.transaction.Transactional;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -35,11 +39,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UserServiceImpl implements UserService {
 
-	private final UserRepository userRepository;
-	private final PBFDK2Encoder passwordEncoder;
-	private final UserMapper userMapper;
+	UserRepository userRepository;
+	PBFDK2Encoder passwordEncoder;
+	UserMapper userMapper;
+	RoleService roleService;
 
 	/**
 	 * Create new user with UserRepository.
@@ -47,7 +53,7 @@ public class UserServiceImpl implements UserService {
 	 * @autor             Nikolay Osetrov
 	 * @since             0.1.0
 	 * @param  userEntity UserEntity
-	 * @return            Mono<UserEntity>
+	 * @return
 	 * @see               PBFDK2Encoder
 	 */
 	@Override
@@ -61,13 +67,13 @@ public class UserServiceImpl implements UserService {
 		if (optionalUser.isPresent()) {
 			throw new EntityAlreadyExistsException(ErrorEnum.USER_WITH_EMAIL_ALREADY_EXISTS, email);
 		}
-
+		
+		Set<RoleEntity> defaultRoles = roleService.getDefaultRoles();
+		
 		// Create new user:
 		userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-		userEntity.setUserRole(UserRoleEnum.USER);
+		userEntity.setUserRole(defaultRoles);
 		userEntity.setEnabled(true); // TODO: Set this to false when email verification system is implemented.
-		userEntity.setCreatedAt(LocalDateTime.now());
-		userEntity.setUpdatedAt(LocalDateTime.now());
 
 		UserEntity savedUser = userRepository.save(userEntity);
 
@@ -119,7 +125,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public UserDto getUserById(UUID id) {
+	public UserDto getUserById(UUID id) throws EntityNotFoundException {
 		return userMapper.map(
 				userRepository.findById(id)
 						.orElseThrow(() -> new EntityNotFoundException(ErrorEnum.USER_NOT_FOUND))
@@ -135,7 +141,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public UserDto getUserByEmail(String email) {
+	public UserDto getUserByEmail(String email) throws EntityNotFoundException {
 		return userMapper.map(
 				userRepository.findByEmail(email)
 						.orElseThrow(() -> new EntityNotFoundException(ErrorEnum.USER_NOT_FOUND))

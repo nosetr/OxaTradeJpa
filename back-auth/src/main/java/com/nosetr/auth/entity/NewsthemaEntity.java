@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,7 +40,7 @@ public class NewsthemaEntity {
 	 * The many-to-many relationship to NewsletterEntity
 	 */
 	@Builder.Default
-	@ManyToMany(mappedBy = "newsthemen")
+	@ManyToMany(mappedBy = "newsthemen", fetch = FetchType.LAZY)
 	private Set<NewsletterEntity> emails = new HashSet<>();
 
 }

@@ -4,13 +4,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.nosetr.auth.entity.UserEntity;
-import com.nosetr.auth.enums.UserRoleEnum;
 
 /**
  * Reactive repository for users table.
@@ -41,7 +38,7 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
 	 * @param userRole
 	 * @see   https://www.baeldung.com/spring-data-partial-update#custom-query
 	 */
-	@Modifying
-	@Query("UPDATE users u SET u.user_role = :userRole where u.id = :id")
-	void updateUserRole(@Param(value = "id") UUID id, @Param(value = "userRole") UserRoleEnum userRole);
+//	@Modifying
+//	@Query("UPDATE users u SET u.user_role = :userRole where u.id = :id")
+//	void updateUserRole(@Param(value = "id") UUID id, @Param(value = "userRole") UserRoleEnum userRole);
 }

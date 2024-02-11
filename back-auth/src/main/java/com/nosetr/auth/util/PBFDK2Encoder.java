@@ -1,4 +1,4 @@
-package com.nosetr.auth.security;
+package com.nosetr.auth.util;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;

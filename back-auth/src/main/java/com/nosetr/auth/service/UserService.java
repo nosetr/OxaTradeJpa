@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.nosetr.auth.dto.UserDto;
 import com.nosetr.auth.dto.UserRegisterDto;
 import com.nosetr.auth.dto.UserUpdateDto;
+import com.nosetr.library.util.exception.EntityNotFoundException;
 
 /**
  * Service interface for users actions.
@@ -44,7 +45,7 @@ public interface UserService {
 	 * @param  id UUID
 	 * @return    Mono<UserEntity>
 	 */
-	UserDto getUserById(UUID id);
+	UserDto getUserById(UUID id) throws EntityNotFoundException;
 
 	/**
 	 * Find user by email
@@ -54,7 +55,7 @@ public interface UserService {
 	 * @param  email String
 	 * @return       Mono<UserEntity>
 	 */
-	UserDto getUserByEmail(String email);
+	UserDto getUserByEmail(String email) throws EntityNotFoundException;
 
 	/**
 	 * ++++++++++++++++++++++++++++++++++++++++++++++++++++

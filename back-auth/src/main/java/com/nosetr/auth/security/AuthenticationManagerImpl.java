@@ -2,7 +2,6 @@ package com.nosetr.auth.security;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 
 import com.nosetr.auth.dto.UserDto;
 import com.nosetr.auth.service.UserService;
@@ -17,7 +16,7 @@ import lombok.RequiredArgsConstructor;
  * @autor Nikolay Osetrov
  * @since 0.1.0
  */
-@Component
+//@Component
 @RequiredArgsConstructor
 public class AuthenticationManagerImpl implements AuthenticationManager {
 
