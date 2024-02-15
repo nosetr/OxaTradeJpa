@@ -1,0 +1,3 @@
+13-02-2024 10:58:39.763 :: Starting BackAuthApplication using Java 21 with PID 11714 (/home/nosetr/git/OxaTradeJpa/back-auth/target/classes started by nosetr in /home/nosetr/git/OxaTradeJpa/back-auth)
+13-02-2024 10:58:39.766 :: The following 1 profile is active: "dev"
+13-02-2024 10:59:10.464 :: Started BackAuthApplication in 32.607 seconds (process running for 35.85)

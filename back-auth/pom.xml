@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.nosetr</groupId>
 		<artifactId>back-parent</artifactId>
-		<version>0.1.0</version>
+		<version>0.1.4</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -116,10 +116,10 @@
 		</dependency>
 
 		<!-- Swagger 3
-		https://springdoc.org/#spring-webflux-support -->
+		https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>${springdoc.swagger.version}</version>
 		</dependency>
 
