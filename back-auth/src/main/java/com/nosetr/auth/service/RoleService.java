@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.nosetr.auth.entity.RoleEntity;
 import com.nosetr.auth.enums.UserRoleEnum;
-import com.nosetr.library.util.exception.EntityNotFoundException;
+import com.nosetr.library.exception.EntityNotFoundException;
 
 /**
  * Service interface for users with roles actions.

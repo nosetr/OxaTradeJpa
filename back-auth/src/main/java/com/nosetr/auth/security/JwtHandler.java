@@ -4,7 +4,7 @@ import java.util.Base64;
 import java.util.Date;
 
 import com.nosetr.library.enums.ErrorEnum;
-import com.nosetr.library.util.exception.UnauthorizedException;
+import com.nosetr.library.exception.UnauthorizedException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -42,7 +42,7 @@ public class JwtHandler {
 	 * @autor              Nikolay Osetrov
 	 * @since              0.1.0
 	 * @param  accessToken BearerToken extracted from HttpHeaders.AUTHORIZATION
-	 * @return             Mono<VerificationResult> or UnauthorizedException
+	 * @return             VerificationResult or UnauthorizedException
 	 */
 	public VerificationResult check(String accessToken) {
 

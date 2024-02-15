@@ -31,15 +31,17 @@ public interface UserMapper {
 
 	@InheritInverseConfiguration
 	@Mapping(target = "provider", ignore = true)
-	@Mapping(target = "userRole", ignore = true)
+	@Mapping(target = "userRoles", ignore = true)
+	@Mapping(target = "createdAt", ignore = true)
+	@Mapping(target = "updatedAt", ignore = true)
 	UserEntity map(UserDto dto);
 
 	@Mapping(target = "id", ignore = true)
-	@Mapping(target = "createdAt", ignore = true)
 	@Mapping(target = "enabled", ignore = true)
-	@Mapping(target = "updatedAt", ignore = true)
-	@Mapping(target = "userRole", ignore = true)
+	@Mapping(target = "userRoles", ignore = true)
 	@Mapping(target = "provider", ignore = true)
+	@Mapping(target = "createdAt", ignore = true)
+	@Mapping(target = "updatedAt", ignore = true)
 	UserEntity map(@Valid UserRegisterDto dto);
 
 	@Mapping(target = "id", ignore = true)
@@ -48,13 +50,13 @@ public interface UserMapper {
 	@Mapping(target = "enabled", ignore = true)
 	@Mapping(target = "password", ignore = true)
 	@Mapping(target = "updatedAt", ignore = true)
-	@Mapping(target = "userRole", ignore = true)
+	@Mapping(target = "userRoles", ignore = true)
 	@Mapping(target = "provider", ignore = true)
 	UserEntity updateUserFromDto(UserUpdateDto dto, @MappingTarget UserEntity entity);
 
 	@InheritInverseConfiguration
 	@Mapping(target = "password", ignore = true)
-	@Mapping(target = "userRole", ignore = true)
+	@Mapping(target = "userRoles", ignore = true)
 	UserEntity map(UserOAuth2Dto dto);
 
 	List<UserDto> map(List<UserEntity> all);

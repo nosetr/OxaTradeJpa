@@ -6,7 +6,7 @@ import java.util.UUID;
 import com.nosetr.auth.dto.UserDto;
 import com.nosetr.auth.dto.UserRegisterDto;
 import com.nosetr.auth.dto.UserUpdateDto;
-import com.nosetr.library.util.exception.EntityNotFoundException;
+import com.nosetr.library.exception.EntityNotFoundException;
 
 /**
  * Service interface for users actions.

@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS oxatrade.users (
 -- oxatrade.roles definition
 CREATE TABLE oxatrade.roles
 (
-	id      SERIAL PRIMARY KEY,
+	id int unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name    varchar(25) NOT NULL UNIQUE,
 	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -44,7 +44,7 @@ CREATE TABLE oxatrade.roles
 CREATE TABLE oxatrade.users_roles
 (
     user_id BINARY(16) REFERENCES users (id),
-    role_id INTEGER REFERENCES roles (id),
+    role_id int REFERENCES roles (id),
 	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (user_id, role_id)

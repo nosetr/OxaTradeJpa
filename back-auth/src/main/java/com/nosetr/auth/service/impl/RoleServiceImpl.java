@@ -10,7 +10,7 @@ import com.nosetr.auth.enums.UserRoleEnum;
 import com.nosetr.auth.repository.RoleRepository;
 import com.nosetr.auth.service.RoleService;
 import com.nosetr.library.enums.ErrorEnum;
-import com.nosetr.library.util.exception.EntityNotFoundException;
+import com.nosetr.library.exception.EntityNotFoundException;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -55,8 +55,8 @@ public class RoleServiceImpl implements RoleService {
 	 */
 	@Override
 	public RoleEntity findByEnum(UserRoleEnum roleEnum) throws EntityNotFoundException {
-		return roleRepository.findByName(roleEnum.getName())
-				.orElseThrow(() -> new EntityNotFoundException(ErrorEnum.USER_ROLE_NAME_NOT_FOUND, roleEnum.getName()));
+		return roleRepository.findByName(roleEnum.getLabelString())
+				.orElseThrow(() -> new EntityNotFoundException(ErrorEnum.USER_ROLE_NAME_NOT_FOUND, roleEnum.getLabelString()));
 	}
 
 	/**

@@ -57,7 +57,7 @@ public class UserEntity {
 			)
 	)
 	@ManyToMany(fetch = FetchType.LAZY)
-	private Set<RoleEntity> userRole;
+	private Set<RoleEntity> userRoles;
 
 	private String title;
 	private String firstName;

@@ -5,8 +5,10 @@ spring:
       
   jpa:
     open-in-view: false
-    hibernate:
-      ddl-auto: update
+    properties:
+      hibernate:
+        ddl-auto: update
+        enable_lazy_load_no_trans: true
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/oxatrade?allowPublicKeyRetrieval=true&useSSL=false
     username: oxatrade

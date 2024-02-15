@@ -35,7 +35,7 @@ public class JwtTokenUtil {
 
 	public String generateTokenFromUser(UserEntity user) {
 		Map<String, Object> claims = new HashMap<>();
-		var roles = user.getUserRole()
+		var roles = user.getUserRoles()
 				.stream()
 				.map(
 						r -> new SimpleGrantedAuthority(

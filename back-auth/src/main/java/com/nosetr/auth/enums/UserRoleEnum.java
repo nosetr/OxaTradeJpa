@@ -1,6 +1,6 @@
 package com.nosetr.auth.enums;
 
-import com.nosetr.library.util.helper.MessageSourceHelper;
+import com.nosetr.library.helper.MessageSourceHelper;
 
 import lombok.Getter;
 
@@ -25,7 +25,7 @@ public enum UserRoleEnum {
 	);
 
 	@Getter
-	private final String name;
+	private final String labelString;
 
 	private final String message;
 
@@ -34,10 +34,10 @@ public enum UserRoleEnum {
 	 * 
 	 * @autor      Nikolay Osetrov
 	 * @since      0.1.4
-	 * @param name
+	 * @param labelString
 	 */
-	private UserRoleEnum(String name, String message) {
-		this.name = name;
+	private UserRoleEnum(String label, String message) {
+		this.labelString = label;
 		this.message = message;
 	}
 

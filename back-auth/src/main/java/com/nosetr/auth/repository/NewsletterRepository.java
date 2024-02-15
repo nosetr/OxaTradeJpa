@@ -20,5 +20,5 @@ public interface NewsletterRepository extends JpaRepository<NewsletterEntity, UU
 
 	Optional<NewsletterEntity> findByEmail(@Param("email") String email);
 
-//	List<NewsletterEntity> findNewslettersByNewsthemaId(Long themaId);
+//	List<NewsletterEntity> findNewslettersByNewsthemeId(Long themeId);
 }

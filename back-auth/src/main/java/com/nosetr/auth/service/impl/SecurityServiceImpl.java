@@ -3,10 +3,13 @@ package com.nosetr.auth.service.impl;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.nosetr.auth.dto.AuthResponseDto;
@@ -16,12 +19,13 @@ import com.nosetr.auth.service.SecurityService;
 import com.nosetr.auth.service.UserService;
 import com.nosetr.auth.util.PBFDK2Encoder;
 import com.nosetr.library.enums.ErrorEnum;
-import com.nosetr.library.util.exception.AuthException;
+import com.nosetr.library.exception.AuthException;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Make handling with authentication and tokens generation.
@@ -29,6 +33,7 @@ import lombok.RequiredArgsConstructor;
  * @autor Nikolay Osetrov
  * @since 0.1.0
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SecurityServiceImpl implements SecurityService {
@@ -73,6 +78,8 @@ public class SecurityServiceImpl implements SecurityService {
 			throw new AuthException(ErrorEnum.INVALID_PASSWORD_IS_REQUESTED);
 		}
 
+		log.info("+++++++++++++++++++ Beginn with token generation +++++++++++++++++++");
+
 		// Token generation:
 		return generateToken(user).toBuilder()
 				.userId(user.getId()) // add userId to claims
@@ -89,10 +96,23 @@ public class SecurityServiceImpl implements SecurityService {
 	 * @return      AuthResponseDto
 	 */
 	private AuthResponseDto generateToken(UserEntity user) {
+
+		List<String> roles = user.getUserRoles()
+				.stream()
+				.map(
+						r -> new SimpleGrantedAuthority(
+								r.getName()
+										.getLabelString()
+						)
+				)
+				.map(GrantedAuthority::getAuthority)
+				.toList();
+		;
+
 		Map<String, Object> claims = new HashMap<>() {
 			private static final long serialVersionUID = 3877691385799795719L;
 			{
-				put("role", user.getUserRole());
+				put("role", roles);
 				put("email", user.getEmail());
 			}
 		};

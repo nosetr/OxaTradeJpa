@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 import com.nosetr.auth.dto.EmailDto;
 import com.nosetr.auth.dto.NewsletterDto;
 import com.nosetr.auth.entity.NewsletterEntity;
-import com.nosetr.auth.entity.NewsthemaEntity;
+import com.nosetr.auth.entity.NewsthemeEntity;
 import com.nosetr.auth.mapper.NewsletterMapper;
 import com.nosetr.auth.repository.NewsletterRepository;
-import com.nosetr.auth.repository.NewsthemaRepository;
+import com.nosetr.auth.repository.NewsthemeRepository;
 import com.nosetr.auth.service.NewsletterService;
 import com.nosetr.library.enums.ErrorEnum;
-import com.nosetr.library.util.exception.EntityAlreadyExistsException;
-import com.nosetr.library.util.exception.EntityNotFoundException;
+import com.nosetr.library.exception.EntityAlreadyExistsException;
+import com.nosetr.library.exception.EntityNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class NewsletterServiceImpl implements NewsletterService {
 
 	private final NewsletterRepository newsletterRepository;
-	private final NewsthemaRepository newsthemaRepository;
+	private final NewsthemeRepository newsthemeRepository;
 	private final NewsletterMapper newsletterMapper;
 
 	@Override
@@ -51,10 +51,10 @@ public class NewsletterServiceImpl implements NewsletterService {
 		newsletterEntity.setEnabled(false);
 		newsletterEntity.setLastUpdate(LocalDateTime.now());
 
-		NewsthemaEntity newsthemaEntity = newsthemaRepository.findOneById(themeId)
-				.orElseThrow(() -> new EntityNotFoundException(ErrorEnum.NEWS_THEMA_NOT_FOUND, themeId));
+		NewsthemeEntity newsthemeEntity = newsthemeRepository.findOneById(themeId)
+				.orElseThrow(() -> new EntityNotFoundException(ErrorEnum.NEWS_THEME_NOT_FOUND, themeId));
 
-//		newsletterEntity.addTheme(newsthemaEntity);// TODO Many-To-Many
+//		newsletterEntity.addTheme(newsthemeEntity);// TODO Many-To-Many
 		log.debug("IN saveEmail - newsletterEntity: {}", newsletterEntity);
 
 		NewsletterEntity savedEmail = newsletterRepository.save(newsletterEntity);

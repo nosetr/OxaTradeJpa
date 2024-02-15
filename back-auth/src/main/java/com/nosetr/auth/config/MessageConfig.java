@@ -20,12 +20,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  */
 @Configuration
 public class MessageConfig {
-	
-	// com.nosetr.library.config.MessageLibConfig;
-//	@Bean
-//  public MessageLibConfig messageLibConfig() {
-//      return new MessageLibConfig();
-//  }
 
 	@Bean
 	public MessageSource messageSource() {

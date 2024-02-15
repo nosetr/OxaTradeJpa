@@ -46,28 +46,28 @@ public class NewsletterEntity {
 	private LocalDateTime lastUpdate;
 
 	/*
-	 * The many-to-many relationship to NewsthemaEntity
+	 * The many-to-many relationship to NewsthemeEntity
 	 */
 	@Builder.Default
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JoinTable(
-			name = "newsletter_newsthema", joinColumns = { @JoinColumn(name = "email_id") }, inverseJoinColumns = {
-					@JoinColumn(name = "thema_id") }
+			name = "newsletter_newstheme", joinColumns = { @JoinColumn(name = "email_id") }, inverseJoinColumns = {
+					@JoinColumn(name = "theme_id") }
 	)
-	private Set<NewsthemaEntity> newsthemen = new HashSet<>();
+	private Set<NewsthemeEntity> newsthemen = new HashSet<>();
 
 	/**
 	 * Add theme by many-to-many.
 	 * 
 	 * @autor           Nikolay Osetrov
 	 * @since           0.1.2
-	 * @param themaMono
+	 * @param theme
 	 * @see             https://manerajona.medium.com/mapping-bidirectional-object-associations-using-mapstruct-ce49b1857604
 	 */
-	//	public void addTheme(NewsthemaEntity thema) {
+	//	public void addTheme(NewsthemeEntity theme) {
 	//		if (this.newsthemen == null) this.newsthemen = new HashSet<>();
-	//		this.newsthemen.add(thema);
-	//		thema.getEmails()
+	//		this.newsthemen.add(theme);
+	//		theme.getEmails()
 	//				.add(this);
 	//	}
 

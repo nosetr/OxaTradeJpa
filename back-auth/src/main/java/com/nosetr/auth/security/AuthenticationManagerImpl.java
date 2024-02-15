@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 import com.nosetr.auth.dto.UserDto;
 import com.nosetr.auth.service.UserService;
 import com.nosetr.library.enums.ErrorEnum;
-import com.nosetr.library.util.exception.AuthException;
+import com.nosetr.library.exception.AuthException;
 
 import lombok.RequiredArgsConstructor;
 

@@ -9,7 +9,7 @@ import com.nosetr.auth.dto.NewsletterDto;
 import com.nosetr.auth.entity.NewsletterEntity;
 
 /**
- * Mapper between NewsletterDto and NewsletterEntity / NewsthemaEntity
+ * Mapper between NewsletterDto and NewsletterEntity / NewsthemeEntity
  * 
  * @autor Nikolay Osetrov
  * @since 0.1.2
@@ -17,10 +17,10 @@ import com.nosetr.auth.entity.NewsletterEntity;
 @Mapper(componentModel = "spring", collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED)
 public interface NewsletterMapper {
 
-//	@Mapping(source = "newsthemen.thema_name", target = "themaName")
-//	@Mapping(source = "newsthemen.memo", target = "themaMemo")
-	@Mapping(target = "themaMemo", ignore = true)
-	@Mapping(target = "themaName", ignore = true)
+//	@Mapping(source = "newsthemen.theme_name", target = "themeName")
+//	@Mapping(source = "newsthemen.memo", target = "themeMemo")
+	@Mapping(target = "themeMemo", ignore = true)
+	@Mapping(target = "themeName", ignore = true)
 	NewsletterDto map(NewsletterEntity entity);
 
 	@InheritInverseConfiguration
@@ -31,16 +31,16 @@ public interface NewsletterMapper {
 //	@Mapping(target = "enabled", ignore = true)
 //	@Mapping(target = "lastUpdate", ignore = true)
 //	@Mapping(target = "newsthemen", ignore = true)
-//	@Mapping(target = "newsthemen", qualifiedByName = "newsthemaDtoToNewsthemaEntitySet")
+//	@Mapping(target = "newsthemen", qualifiedByName = "newsthemeDtoToNewsthemeEntitySet")
 //	NewsletterEntity map(EmailDto emailDto);
 	
-//	@Named("newsthemaDtoToNewsthemaEntitySet")
-//  default Set<NewsthemaEntity> newsthemenDtoToNewsthemaEntitySet(Set<NewsthemaDto> newsthemenDtoSet) {
+//	@Named("newsthemeDtoToNewsthemeEntitySet")
+//  default Set<NewsthemeEntity> newsthemenDtoToNewsthemeEntitySet(Set<NewsthemeDto> newsthemenDtoSet) {
 //      return newsthemenDtoSet.stream()
-//              .map(this::newsthemenDtoToNewsthemaEntity)
+//              .map(this::newsthemenDtoToNewsthemeEntity)
 //              .collect(Collectors.toSet());
 //  }
 //	
-//	@Named("newsthemaDtoToNewsthemaEntity")
-//	NewsthemaEntity newsthemenDtoToNewsthemaEntity(NewsthemaDto newsthemenDto);
+//	@Named("newsthemeDtoToNewsthemeEntity")
+//	NewsthemeEntity newsthemenDtoToNewsthemeEntity(NewsthemeDto newsthemenDto);
 }

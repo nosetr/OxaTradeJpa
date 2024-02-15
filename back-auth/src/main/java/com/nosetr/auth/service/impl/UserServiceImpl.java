@@ -19,9 +19,9 @@ import com.nosetr.auth.service.RoleService;
 import com.nosetr.auth.service.UserService;
 import com.nosetr.auth.util.PBFDK2Encoder;
 import com.nosetr.library.enums.ErrorEnum;
-import com.nosetr.library.util.exception.EntityAlreadyExistsException;
-import com.nosetr.library.util.exception.EntityNotFoundException;
-import com.nosetr.library.util.exception.UnauthorizedException;
+import com.nosetr.library.exception.EntityAlreadyExistsException;
+import com.nosetr.library.exception.EntityNotFoundException;
+import com.nosetr.library.exception.UnauthorizedException;
 
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 		
 		// Create new user:
 		userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-		userEntity.setUserRole(defaultRoles);
+		userEntity.setUserRoles(defaultRoles);
 		userEntity.setEnabled(true); // TODO: Set this to false when email verification system is implemented.
 
 		UserEntity savedUser = userRepository.save(userEntity);

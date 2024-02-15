@@ -1,6 +1,6 @@
 package com.nosetr.library.enums;
 
-import com.nosetr.library.util.helper.MessageSourceHelper;
+import com.nosetr.library.helper.MessageSourceHelper;
 
 import lombok.Getter;
 
@@ -45,8 +45,8 @@ public enum ErrorEnum {
 	NEWS_EMAIL_ALREADY_EXISTS(
 			"EMAIL_ALREADY_IN_USE", "exception.newsemail.alreadyExists"
 	),
-	NEWS_THEMA_NOT_FOUND(
-			"NEWS_THEMA_NOT_FOUND", "exception.newsthema.notFound"
+	NEWS_THEME_NOT_FOUND(
+			"NEWS_THEME_NOT_FOUND", "exception.newstheme.notFound"
 	);
 
 	@Getter

@@ -26,24 +26,24 @@ CREATE TABLE IF NOT EXISTS oxatrade.newsletter (
      END IF;
  END;
 
--- oxatrade.newsthema definition
-CREATE TABLE IF NOT EXISTS oxatrade.newsthema (
+-- oxatrade.newstheme definition
+CREATE TABLE IF NOT EXISTS oxatrade.newstheme (
   id int unsigned NOT NULL AUTO_INCREMENT,
-  thema_name varchar(25) NOT NULL COMMENT 'title',
+  theme_name varchar(25) NOT NULL COMMENT 'title',
   memo text COMMENT 'memo/information',
   PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='List of themas spec. for newsletter-mailing';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='List of themes spec. for newsletter-mailing';
 
 -- Dumping data for table "oxatrade.countries"
-INSERT INTO oxatrade.newsthema (thema_name, memo) VALUES
+INSERT INTO oxatrade.newstheme (theme_name, memo) VALUES
 ('DEFAULT', 'Auto created');
 
--- oxatrade.newsletter_newsthema definition
+-- oxatrade.newsletter_newstheme definition
 -- Create the Join Table to establish a many-to-many relationship
-CREATE TABLE IF NOT EXISTS oxatrade.newsletter_newsthema (
+CREATE TABLE IF NOT EXISTS oxatrade.newsletter_newstheme (
   email_id BINARY(16) NOT NULL,
-  thema_id int unsigned NOT NULL,
-  PRIMARY KEY (email_id, thema_id)
+  theme_id int unsigned NOT NULL,
+  PRIMARY KEY (email_id, theme_id)
   -- FOREIGN KEY (email_id) REFERENCES oxatrade.newsletter(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  -- FOREIGN KEY (thema_id) REFERENCES oxatrade.newsthema(id) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Many-to-Many relationship between newsletter and newsthema';
+  -- FOREIGN KEY (theme_id) REFERENCES oxatrade.newstheme(id) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Many-to-Many relationship between newsletter and newstheme';

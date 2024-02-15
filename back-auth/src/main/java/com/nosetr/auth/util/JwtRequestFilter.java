@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.nosetr.library.enums.ErrorEnum;
-import com.nosetr.library.util.exception.AuthException;
+import com.nosetr.library.exception.AuthException;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
