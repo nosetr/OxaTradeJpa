@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 import com.nosetr.auth.dto.AuthResponseDto;
 import com.nosetr.auth.entity.UserEntity;
 import com.nosetr.auth.repository.UserRepository;
+import com.nosetr.auth.security.PBFDK2Encoder;
 import com.nosetr.auth.service.SecurityService;
 import com.nosetr.auth.service.UserService;
-import com.nosetr.auth.util.PBFDK2Encoder;
 import com.nosetr.library.enums.ErrorEnum;
 import com.nosetr.library.exception.AuthException;
 

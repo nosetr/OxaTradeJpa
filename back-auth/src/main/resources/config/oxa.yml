@@ -11,27 +11,57 @@ jwt:
 # OAuth 2.0-Client-ID "OxaTrade"
 spring:
   security:
-    oauth2: 
-      client:
-        registration:
+    oauth2:
+      #each authorization server needs to have a unique issuer URL
+      authorizationserver:
+        issuer: http://localhost:8083
+        
+        client:
+          articles-client:
+            registration:
+              # Spring will use it to identify which client is trying to access the resource:
+              client-id: articles-client
+              # a secret known to the client and server that provides trust between the two:
+              client-secret: "{noop}secret"
+              client-name: Articles Client
+              # we’ll use basic authentication, which is just a username and password:
+              client-authentication-methods:
+                - client_secret_basic
+              # we want to allow the client to generate both an authorization code and a refresh token:
+              authorization-grant-types:
+                - authorization_code
+                - refresh_token
+              # the client will use it in a redirect-based flow:
+              redirect-uris:
+                - http://127.0.0.1:8080/login/oauth2/code/articles-client-oidc
+                - http://127.0.0.1:8080/authorized
+              # this parameter defines authorizations that the client may have:
+              # In our case, we’ll have the required OidcScopes.OPENID and our custom one, articles. read
+              scopes:
+                - openid
+                - articles.read
+    
+    
+#      client:
+#        registration:
           # OAuth 2.0-Google-Client
           # https://console.cloud.google.com/apis/credentials
-          google:
-            client-id: ${OAUTH2_GOOGLE_ID}
-            client-secret: ${OAUTH2_GOOGLE_SECRET}
-            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
-            scope:
-              - https://www.googleapis.com/auth/userinfo.email
-              - https://www.googleapis.com/auth/userinfo.profile
-              - openid
+#          google:
+#            client-id: ${OAUTH2_GOOGLE_ID}
+#            client-secret: ${OAUTH2_GOOGLE_SECRET}
+#            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+#            scope:
+#              - https://www.googleapis.com/auth/userinfo.email
+#              - https://www.googleapis.com/auth/userinfo.profile
+#              - openid
           # OAuth 2.0-Facebook-Client
           # https://developers.facebook.com/apps/
-          facebook:
-            client-id: ${OAUTH2_FACEBOOK_ID}
-            client-secret: ${OAUTH2_FACEBOOK_SECRET}
-            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
-            scope:
-              - email
+#          facebook:
+#            client-id: ${OAUTH2_FACEBOOK_ID}
+#            client-secret: ${OAUTH2_FACEBOOK_SECRET}
+#            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+#            scope:
+#              - email
             
 
 ---

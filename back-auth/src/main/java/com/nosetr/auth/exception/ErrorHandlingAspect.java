@@ -59,7 +59,7 @@ public class ErrorHandlingAspect {
 	 * @return
 	 * @throws Throwable
 	 */
-//	@Around("execution (* com.nosetr.auth.api.controller.*Controller*.*(..))")
+//	@Around("execution (* com.nosetr.auth.controller.impl.*Controller*.*(..))")
 	public Object handleControllerException(ProceedingJoinPoint joinPoint) throws Throwable {
 
 		ArrayList<Map<String, Object>> errorList = new ArrayList<>();

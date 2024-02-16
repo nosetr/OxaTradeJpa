@@ -1,0 +1,10 @@
+server:
+  port: 8090
+  
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Proper URL for our authentication server:
+          issuer-uri: http://auth-server:9090

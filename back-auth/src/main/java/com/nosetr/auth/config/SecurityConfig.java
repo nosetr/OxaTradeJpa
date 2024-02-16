@@ -1,21 +1,22 @@
 package com.nosetr.auth.config;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.nosetr.auth.util.JwtRequestFilter;
-
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -27,94 +28,69 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true)
 @Configuration
 //@Order(1)
 public class SecurityConfig {
 
-	/*
-	 * Array of routes with public access for registration and login
+	/**
+	 * Filter chain to apply the default OAuth security and generate a default form
+	 * login page:
+	 * 
+	 * @autor            Nikolay Osetrov
+	 * @since            0.1.4
+	 * @param  http
+	 * @return
+	 * @throws Exception
 	 */
-	private final String[] publicRoutes = {
-			"/api/v1/auth/register",
-			"/api/v1/auth/login",
-			"/login/**",
-			"/api/v1/newsletter",
-			"/error",
-			"/favicon.ico"
-	};
-
-	/*
-	 * Special routes for swagger
-	 */
-	private final String[] swaggerRouteStrings = {
-			"/swagger",
-			"/api-docs/**",
-			"/swagger-ui/**"
-	};
-
-	/*
-	 * Array of routes with access for users with role "USER"
-	 */
-	private final String[] usersRoutes = { "/api/v1/secure/**" };
-
 	@Bean
-	public SecurityFilterChain securityFilterChain(
-			HttpSecurity http,
-			JwtRequestFilter jwtRequestFilter
-	)
-			throws Exception {
-
-		return http
-				// This configuration disables CSRF protection and allows all requests to access
-				// resources without requiring authorization or authentication, thus eliminating
-				// the need for a password (should be enabled in production):
-				.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests(
-						auth -> auth
-								.requestMatchers(publicRoutes) // make routes from publicRoutes public
-								.permitAll()
-								.requestMatchers(swaggerRouteStrings) // swagger routes
-								.permitAll()
-								.requestMatchers(usersRoutes)
-								.hasAnyRole("USER", "ADMIN", "SUPERADMIN")
-								.anyRequest() // all other routes are not public
-								.authenticated()
-				)
-				.sessionManagement(
-						session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				)
-				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-				// sample exception handling customization
-				.exceptionHandling(
-						exceptionHandling -> exceptionHandling
-								// customize how to request for authentication
-								.authenticationEntryPoint((request, response, accessDeniedException) -> {
-									log.error(
-											"IN securityWebFilterChain - unauthorized error: {}, RequestURL: {}", accessDeniedException
-													.getMessage(), request.getRequestURL()
-									);
-									response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-								})
-								.accessDeniedHandler((request, response, accessDeniedException) -> {
-									log.error("IN securityWebFilterChain - access denied: {}", accessDeniedException.getMessage());
-									response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-								})
-				)
+	@Order(1)
+	SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+		http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+				.oidc(withDefaults()); // Enable OpenID Connect 1.0
+		return http.formLogin(withDefaults())
 				.build();
 	}
 
+	/**
+	 * Second Spring Security filter chain for authentication:
+	 * 
+	 * @autor            Nikolay Osetrov
+	 * @since            0.1.4
+	 * @param  http
+	 * @return
+	 * @throws Exception
+	 */
 	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
+	@Order(2)
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+		http.authorizeHttpRequests(
+				// for all requests:
+				authorizeRequests -> authorizeRequests.anyRequest()
+						.authenticated()
+		)
+				.formLogin(withDefaults());
+		return http.build();
 	}
 
+	/**
+	 * set of example users that we’ll use for testing. For the sake of this
+	 * example, we’ll create a repository with just a single admin user:
+	 * 
+	 * @autor  Nikolay Osetrov
+	 * @since  0.1.4
+	 * @return
+	 */
 	@Bean
-	public AuthenticationManager authenticationManager(
-			AuthenticationConfiguration authenticationConfiguration
-	)
-			throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
+	UserDetailsService users() {
+		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		UserDetails user = User.builder()
+				.username("admin")
+				.password("password")
+				.passwordEncoder(encoder::encode)
+				.roles("USER")
+				.build();
+		return new InMemoryUserDetailsManager(user);
 	}
 
 }
