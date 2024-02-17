@@ -1,0 +1,15 @@
+{
+  "properties": [
+    {
+      "name": "oxa.cors.max-age-secs",
+      "type": "long",
+      "description": "The maximum age (in seconds) to cache preflight responses for Cross-Origin Resource Sharing (CORS)."
+    },
+    {
+      "name": "oxa.cors.allowed-origins",
+      "type": "List<String>",
+      "description": "List of allowed origins for Cross-Origin Resource Sharing (CORS). Requests from these origins are permitted to access the resources of the application."
+    }
+  ]
+}
+

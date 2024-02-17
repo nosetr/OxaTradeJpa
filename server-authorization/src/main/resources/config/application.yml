@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: oxatrade-service
+  profiles:
+    active: dev
+  jackson:
+    property-naming-strategy: SNAKE_CASE # configure the whole application to expect the snake case input
+  config:
+    import: 
+      - db.yml
+      - oxa.yml
+  #autoconfigure:
+    # To discard the security auto-configuration and add our own configuration:
+    #exclude: org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  security:
+    oauth2:
+      authorizationserver:
+        # In addition, we’ll add an entry “127.0.0.1 auth-server” in our /etc/hosts file.
+        # This allows us to run the client and the auth server on our local machine and
+        # avoids problems with session cookie overwrites between the two.
+        issuer: http://auth-server:9090
+        client:
+          # we’ll have a single client named articles-client:
+          articles-client:
+            registration:
+              # Spring will use it to identify which client is trying to access the resource:
+              client-id: articles-client
+              # a secret known to the client and server that provides trust between the two:
+              client-secret: "{noop}secret"
+              client-name: Articles Client
+              # in our case, we’ll use basic authentication, which is just a username and password:
+              client-authentication-methods:
+                - client_secret_basic
+              # we want to allow the client to generate both an authorization code and a refresh token:
+              authorization-grant-types:
+                - authorization_code
+                - refresh_token
+              # the client will use it in a redirect-based flow:
+              redirect-uris:
+                - http://127.0.0.1:8080/login/oauth2/code/articles-client-oidc
+                - http://127.0.0.1:8080/authorized
+              # this parameter defines authorizations that the client may have:
+              scopes:
+                - openid
+                - articles.read
+
+server:
+  port: 9090
+    
+    
