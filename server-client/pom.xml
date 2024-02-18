@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nosetr</groupId>
-	<artifactId>client-server</artifactId>
+	<artifactId>server-client</artifactId>
 	<version>0.1.4</version>
-	<name>client-server</name>
+	<name>server-client</name>
 	<description>REST API client that will fetch the list of articles from the resource server.</description>
 	<properties>
 		<java.version>21</java.version>

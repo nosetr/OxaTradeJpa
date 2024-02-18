@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nosetr</groupId>
-	<artifactId>resource-server</artifactId>
+	<artifactId>server-resource</artifactId>
 	<version>0.1.4</version>
-	<name>resource-server</name>
+	<name>server-resource</name>
 	<description>Resource server that will return a list of articles from a GET
 		endpoint.</description>
 	<properties>

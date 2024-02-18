@@ -1,0 +1,54 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+      
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        ddl-auto: update
+        enable_lazy_load_no_trans: true
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/oxatrade?allowPublicKeyRetrieval=true&useSSL=false
+    username: ${MYSQL_USER_NAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #show-sql: true
+    
+  flyway:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/oxatrade?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+    #locations: classpath:db/migration
+    #baseline-on-migrate: true
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    encoding: UTF-8
+    create-schemas: true
+    schemas: oxatrade
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+      
+  #H2 Database Engine: File will be created automatic after run
+  datasource:
+    #url: jdbc:h2:file:~/BuyToSaleAdmin;AUTO_SERVER=TRUE;
+    url: jdbc:h2:file:///./tmp/test-db
+    name: sa
+    password:
+  sql:
+    init:
+      mode: always
+  h2:
+    console:
+      enabled: true
+
+  flyway:
+    url: jdbc:h2:file:///./tmp/test-db;DB_CLOSE_DELAY=-1
+    #locations: classpath:db/migration
+    baseline-on-migrate: true
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    schemas: PUBLIC # H2 default schema for test databases
