@@ -48,7 +48,7 @@ public interface UserRestV1Controller {
 					+ " * at least one lower-case character,\n"
 					+ " * at least one digit character,\n"
 					+ " * at least one symbol (special character)\n"
-					+ " * and no whitespace", tags = { "users_tag", "post_tag" }
+					+ " * and no whitespace", tags = { "users_tag", "post_tag" }, hidden = false
 	)
 	@ApiResponses(
 		{
@@ -78,7 +78,7 @@ public interface UserRestV1Controller {
 	 */
 	@Operation(
 			summary = "Login with email and password. Create response with token and additional info.", tags = { "users_tag",
-					"post_tag" }
+					"post_tag" }, hidden = false
 	)
 	@ApiResponses(
 		{
@@ -106,8 +106,8 @@ public interface UserRestV1Controller {
 	 * @return
 	 */
 	@Operation(
-			summary = "Update users info", description = "Authorized user can update info about himself.",
-			tags = { "users_tag", "put_tag" }
+			summary = "Update users info", description = "Authorized user can update info about himself.", tags = {
+					"users_tag", "put_tag" }, hidden = false
 	)
 	@ApiResponses(
 		{
@@ -118,7 +118,9 @@ public interface UserRestV1Controller {
 				@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
 				@ApiResponse(
 						responseCode = "500", content = { @Content(
-								schema = @Schema()) })
+								schema = @Schema()
+						) }
+				)
 		}
 	)
 	@PutMapping("/update")
@@ -132,10 +134,11 @@ public interface UserRestV1Controller {
 	 * @param  authentication
 	 * @return
 	 */
-	//	@PreAuthorize("hasAnyRole('USER')") // TODO make role
 	@Operation(
-			summary = "Get users info", description = "Authorized user can get info about himself.",
-			tags = { "users_tag", "get_tag" }
+			summary = "Get users info",
+			description = "Authorized user can get info about himself.",
+			tags = { "users_tag", "get_tag" },
+			hidden = false
 	)
 	@ApiResponses(
 		{
@@ -143,12 +146,18 @@ public interface UserRestV1Controller {
 						responseCode = "200", content = {
 								@Content(schema = @Schema(implementation = UserDto.class), mediaType = "application/json") }
 				),
-				@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
 				@ApiResponse(
-						responseCode = "500", content = { @Content(
-								schema = @Schema()) })
+						responseCode = "404",
+						content = { @Content(schema = @Schema()) }),
+				@ApiResponse(
+						responseCode = "500",
+						content = { @Content(
+								schema = @Schema()
+						) }
+				)
 		}
 	)
+	//	@PreAuthorize("hasAnyRole('USER')") // TODO make role
 	@GetMapping("/info")
 	public ResponseEntity<UserDto> getUserInfo(Authentication authentication);
 }

@@ -19,7 +19,7 @@ public class ApiResponseDto {
 
 	private Object data;
 	private String message;
-	private boolean error = true;
+	private boolean error = false;
 
 	public ApiResponseDto(Object data, String message) {
 		this.data = data;
