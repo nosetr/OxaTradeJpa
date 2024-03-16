@@ -11,21 +11,26 @@ spring:
         enable_lazy_load_no_trans: true
         
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/oxatrade?allowPublicKeyRetrieval=true&useSSL=false
-    username: ${MYSQL_USER_NAME}
+    #url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/oxatrade?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:postgresql://localhost:5432/oxatrade
+    #username: ${MYSQL_USER_NAME}
+    username: ${POSTGRES_USER_NAME}
     password: ${MYSQL_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
     #show-sql: true
     
   flyway:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/oxatrade?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+    #url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/oxatrade?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:postgresql://localhost:5432/oxatrade
     #locations: classpath:db/migration
     #baseline-on-migrate: true
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
     encoding: UTF-8
-    create-schemas: true
+    #create-schemas: true
     schemas: oxatrade
+    createDatabaseIfNotExist: true
 
 ---
 spring:

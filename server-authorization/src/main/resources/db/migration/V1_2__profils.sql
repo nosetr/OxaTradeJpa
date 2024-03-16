@@ -1,73 +1,70 @@
--- DROP DATABASE IF EXISTS oxatrade;
-
 -- oxatrade.organizations definition
 CREATE TABLE IF NOT EXISTS oxatrade.organizations (
-  id bigint unsigned NOT NULL AUTO_INCREMENT, -- customer ID > 10000
-  org_name varchar(64) NOT NULL COMMENT 'title of organisation',
-  email varchar(64) DEFAULT NULL, -- don't make UNIQUE
-  phone varchar(25) DEFAULT NULL,
-  enabled BOOLEAN NOT NULL DEFAULT '1' COMMENT 'If is active',
+  id BIGSERIAL PRIMARY KEY, -- customer ID > 10000
+  org_name varchar(64) NOT NULL,
+  email varchar(64),
+  phone varchar(25),
+  enabled BOOLEAN NOT NULL DEFAULT TRUE,
   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  memo text COMMENT 'memo/information',
-  PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Organizations and firms';
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Add comments
+COMMENT ON COLUMN oxatrade.organizations.org_name IS 'title of organisation';
+COMMENT ON COLUMN oxatrade.organizations.enabled IS 'If is active';
 
 -- oxatrade.users_organizations definition
 -- Many-to-many connection
 CREATE TABLE IF NOT EXISTS oxatrade.users_organizations (
-  user_id BINARY(16) NOT NULL,
-  org_id bigint unsigned NOT NULL,
-  user_org_role varchar(32) DEFAULT NULL,
-  PRIMARY KEY (user_id, org_id)
-  -- KEY `FKh8ciramu9cc9q3qcqiv4ue8a6` (org_id),
-  -- CONSTRAINT `FKh8ciramu9cc9q3qcqiv4ue8a6` FOREIGN KEY (org_id) REFERENCES oxatrade.organizations (id) ON UPDATE CASCADE ON DELETE CASCADE,
-  -- CONSTRAINT `FKhfh9dx7w3ubf1co1vdev94g3f` FOREIGN KEY (user_id) REFERENCES oxatrade.users (id) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Many-to-many between users and organizations';
+  user_id UUID NOT NULL,
+  org_id BIGINT NOT NULL,
+  user_org_role varchar(32),
+  PRIMARY KEY (user_id, org_id),
+  FOREIGN KEY (user_id) REFERENCES oxatrade.users (id) ON DELETE CASCADE,
+  FOREIGN KEY (org_id) REFERENCES oxatrade.organizations (id) ON DELETE CASCADE
+);
 
 -- oxatrade.countries definition
 CREATE TABLE IF NOT EXISTS oxatrade.countries (
-  country_code char(2) NOT NULL COMMENT 'Country abbreviation',
-  country_name varchar(200) DEFAULT NULL COMMENT 'Country name',
-  phone_prefix varchar(10) DEFAULT NULL COMMENT 'Telephone prefix',
-  enabled BOOLEAN NOT NULL DEFAULT '1' COMMENT 'If is active',
-  PRIMARY KEY (country_code)
-) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Countries and Nations';
+  country_code char(2) PRIMARY KEY,
+  country_name varchar(200),
+  phone_prefix varchar(10),
+  enabled BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+-- Add comments
+COMMENT ON COLUMN oxatrade.countries.country_code IS 'Country abbreviation';
+COMMENT ON COLUMN oxatrade.countries.country_name IS 'Country name';
+COMMENT ON COLUMN oxatrade.countries.phone_prefix IS 'Telephone prefix';
+COMMENT ON COLUMN oxatrade.countries.enabled IS 'If is active';
 
 -- oxatrade.addresses definition
 CREATE TABLE IF NOT EXISTS oxatrade.addresses (
-  id BINARY(16) NOT NULL,
-  org_id bigint unsigned DEFAULT NULL COMMENT 'id of organisation if not from user',
-  title_name varchar(64) DEFAULT NULL COMMENT 'users name / firma / org',
-  alias_name varchar(64) DEFAULT NULL COMMENT 'additional address name',
-  street_name varchar(70) DEFAULT NULL,
-  house_number varchar(9) DEFAULT NULL,
-  district_name varchar(200) DEFAULT NULL COMMENT 'Part of a city/Additional data',
-  city_name varchar(200) NOT NULL COMMENT 'City name',
-  zip_code varchar(9) NOT NULL COMMENT 'Postal code',
-  state_name varchar(75) DEFAULT NULL COMMENT 'Complete state name',
-  country_code char(2) NOT NULL COMMENT 'Country identification',
-  email varchar(64) DEFAULT NULL, -- don't make UNIQUE
-  phone varchar(25) DEFAULT NULL,
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  org_id BIGINT,
+  title_name varchar(64),
+  alias_name varchar(64),
+  street_name varchar(70),
+  house_number varchar(9),
+  district_name varchar(200),
+  city_name varchar(200) NOT NULL,
+  zip_code varchar(9) NOT NULL,
+  state_name varchar(75),
+  country_code char(2) NOT NULL,
+  email varchar(64),
+  phone varchar(25),
   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  memo text COMMENT 'memo/information',
-  PRIMARY KEY (id)
-  -- KEY country_code (country_code),
-  -- KEY addresses_FK (org_id),
-  -- CONSTRAINT addresses_FK FOREIGN KEY (org_id) REFERENCES oxatrade.organizations (id) ON UPDATE CASCADE ON DELETE CASCADE,
-  -- CONSTRAINT addresses_ibfk_1 FOREIGN KEY (country_code) REFERENCES oxatrade.countries (country_code) ON UPDATE CASCADE
-) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Addresses for users, customers, organizations...';
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
--- Triggers to automatically generate the UUID by "users"
- CREATE TRIGGER IF NOT EXISTS before_insert_addresses
- BEFORE INSERT ON oxatrade.addresses
- FOR EACH ROW
- BEGIN
-     IF NEW.id IS NULL THEN
-         SET NEW.id = (UUID_TO_BIN(UUID()));
-     END IF;
- END;
+-- Add comments
+COMMENT ON COLUMN oxatrade.addresses.title_name IS 'users name / firma / org';
+COMMENT ON COLUMN oxatrade.addresses.alias_name IS 'additional address name';
+COMMENT ON COLUMN oxatrade.addresses.district_name IS 'Part of a city/Additional data';
+COMMENT ON COLUMN oxatrade.addresses.city_name IS 'City name';
+COMMENT ON COLUMN oxatrade.addresses.zip_code IS 'Postal code';
+COMMENT ON COLUMN oxatrade.addresses.state_name IS 'Complete state name';
+COMMENT ON COLUMN oxatrade.addresses.country_code IS 'Country identification';
 
 -- Dumping data for table "oxatrade.countries"
 INSERT INTO oxatrade.countries (country_code, country_name, phone_prefix) VALUES
